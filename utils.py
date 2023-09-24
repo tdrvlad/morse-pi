@@ -121,7 +121,7 @@ def initialize_display():
     epd.Clear(0xFF)
 
 
-def update_text_progressively(text, x_position, y_position, font_size=12):
+def update_text_progressively(text, x_position, y_position, font_size=20):
     """Progressively updates the display as the text grows."""
     font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
 
@@ -141,11 +141,15 @@ def update_text_progressively(text, x_position, y_position, font_size=12):
 # Usage example
 initialize_display()
 time.sleep(1)
-update_text_progressively(".", 50, 50)
+update_text_progressively("A", 50, 50)
 time.sleep(1)
-update_text_progressively("..", 50, 50)
+update_text_progressively("AB", 50, 50)
 time.sleep(1)
-update_text_progressively("...", 50, 50)
+update_text_progressively("ABC", 50, 50)
+time.sleep(1)
+update_text_progressively("ABCD", 50, 50)
+time.sleep(1)
+update_text_progressively("DBCD", 50, 50)
 
 time.sleep(5)
 display_morse_alphabet()
