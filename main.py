@@ -20,6 +20,7 @@ MORSE_CODE_DICT = {
     '=': '-...-', '+': '.-.-.', '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.'
 }
 
+
 # Deque will allow us to maintain a moving window buffer of dots/dashes
 buffer = deque(maxlen=WINDOW_SIZE)
 
@@ -40,7 +41,10 @@ def get_morse_code():
         return ''
 
 def morse_to_text(morse_code):
-    return MORSE_CODE_DICT.get(morse_code, "")
+    for symbol, code in MORSE_CODE_DICT.items():
+        if morse_code.endswitch(code):
+            return symbol
+    return None
 
 try:
     print("Waiting for button press...")
@@ -48,15 +52,15 @@ try:
         if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
             code = get_morse_code()
             if code:
-                print(code, end='', flush=True)
+                # print(code, end='', flush=True)
                 buffer.append(code)
                 
-                # # Convert buffer to text
-                # morse_string = ''.join(buffer)
-                # text = morse_to_text(morse_string)
-                # if text:
-                #     print(f" [{text}] ", end='', flush=True)
-                #     buffer.clear()  # Clear the buffer if we found a valid letter/symbol
+                # Convert buffer to text
+                morse_string = ''.join(buffer)
+                text = morse_to_text(morse_string)
+                if text is not None:
+                    print(f" {text} ", end='', flush=True)
+                    buffer.clear()  # Clear the buffer if we found a valid letter/symbol
                     
             time.sleep(DEBOUNCE_TIME)
         time.sleep(DEBOUNCE_TIME)
