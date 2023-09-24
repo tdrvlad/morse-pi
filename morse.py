@@ -74,13 +74,12 @@ def main_loop():
         if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
             morse_letter = '\n'
 
-        if morse_letter != last_morse_letter and morse_letter is not None:
-            morse_word += morse_letter
-            all_morse_words += morse_letter
-            last_morse_letter = morse_letter
+        if morse_letter is not None:
+            morse_word = morse_word.strip() + morse_letter
 
         if len(morse_word.strip()) > 0 and time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
             decoded = decode_morse(morse_word.strip())
+            all_morse_words += morse_word
             morse_word = ''
             decoded_words += decoded
             print_current(all_morse_words, decoded_words)
