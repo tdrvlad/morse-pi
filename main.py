@@ -47,16 +47,16 @@ try:
     while True:
         if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
             code = get_morse_code()
-            # if code:
-            #     print(code, end='', flush=True)
-            #     buffer.append(code)
+            if code:
+                print(code, end='', flush=True)
+                buffer.append(code)
                 
-            #     # Convert buffer to text
-            #     morse_string = ''.join(buffer)
-            #     text = morse_to_text(morse_string)
-            #     if text:
-            #         print(f" [{text}] ", end='', flush=True)
-            #         buffer.clear()  # Clear the buffer if we found a valid letter/symbol
+                # # Convert buffer to text
+                # morse_string = ''.join(buffer)
+                # text = morse_to_text(morse_string)
+                # if text:
+                #     print(f" [{text}] ", end='', flush=True)
+                #     buffer.clear()  # Clear the buffer if we found a valid letter/symbol
                     
             time.sleep(DEBOUNCE_TIME)
         time.sleep(DEBOUNCE_TIME)
