@@ -55,7 +55,6 @@ def time_since_button_released():
 def main_loop():
     print("Waiting for button press...")
     last_morse_letter = None
-    last_morse_word = None
     all_morse_words = ""
     morse_word = ''
     decoded_words = ''
@@ -75,7 +74,7 @@ def main_loop():
         if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
             morse_letter = '\n'
 
-        if morse_letter != last_morse_letter:
+        if morse_letter != last_morse_letter and morse_letter is not None:
             morse_word += morse_letter
             all_morse_words += morse_letter
             last_morse_letter = morse_letter
