@@ -87,7 +87,7 @@ def write_centered_texts(texts, font_size=12):
 
 
 
-def display_morse_alphabet(start_x=5, start_y=5, font_size=14, line_gap=3, column_width = 60):
+def display_morse_alphabet(start_x=3, start_y=3, font_size=14, line_gap=3, column_width = 60):
     epd.init()
     epd.Clear(0xFF)
     
