@@ -87,7 +87,7 @@ def write_centered_texts(texts, font_size=12):
 
 
 
-def display_morse_alphabet(start_x=3, start_y=3, font_size=14, line_gap=3, column_width = 60):
+def display_morse_alphabet(start_x=5, start_y=3, font_size=14, line_gap=3, column_width = 60):
     epd.init()
     epd.Clear(0xFF)
     
@@ -114,5 +114,38 @@ def display_morse_alphabet(start_x=3, start_y=3, font_size=14, line_gap=3, colum
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
 
-# Test the function
+
+def initialize_display():
+    """Initialize the display once."""
+    epd.init()
+    epd.Clear(0xFF)
+
+
+def update_text_progressively(text, x_position, y_position, font_size=12):
+    """Progressively updates the display as the text grows."""
+    font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
+
+    # Create an image to draw on, if not exists
+    if not hasattr(update_text_progressively, "Himage"):
+        update_text_progressively.Himage = Image.new('1', (epd.height, epd.width), 255)
+
+    draw = ImageDraw.Draw(update_text_progressively.Himage)
+
+    # Draw new text
+    draw.text((x_position, y_position), text, font=font, fill=0)
+
+    # Refresh display
+    epd.display(epd.getbuffer(update_text_progressively.Himage))
+
+
+# Usage example
+initialize_display()
+time.sleep(1)
+update_text_progressively(".", 50, 50)
+time.sleep(1)
+update_text_progressively("..", 50, 50)
+time.sleep(1)
+update_text_progressively("...", 50, 50)
+
+time.sleep(5)
 display_morse_alphabet()
