@@ -3,7 +3,7 @@ import time
 from config import (
     MORSE_INPUT_PIN, TIME_UNIT, DOT_DURATION, DASH_DURATION,
     LETTER_SPACE_DURATION, WORD_SPACE_DURATION, DEBOUNCE_TIME,
-    MORSE_CODE_DICT, INACTIVITY_THRESHOLD
+    MORSE_CODE_DICT
 )
 from display import write_centered_text, display_morse_alphabet
 
@@ -41,6 +41,10 @@ def get_morse_code():
         return '   '
 
 
+def print_current(morse_string, decoded_string):
+    print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
+
+
 def time_since_button_released():
     released_time = 0
     while GPIO.input(MORSE_INPUT_PIN) == GPIO.LOW and released_time < WORD_SPACE_DURATION:
@@ -49,56 +53,34 @@ def time_since_button_released():
     return released_time
 
 
-def print_current(morse_string, decoded_string, last_symbol):
-    if last_symbol:
-        print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-        write_centered_text(decoded_string)
-
-
 def main_loop():
     print("Waiting for button press...")
     all_morse_string = ""
     morse_string = ''
     decoded = ''
-    last_activity_time = time.time()
-    last_symbol = None
-
-    # Display Morse alphabet initially
-    display_morse_alphabet()
 
     while True:
-        current_time = time.time()
-
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             code = get_morse_code()
             all_morse_string += code
             morse_string += code
 
-            if code:
-                last_symbol = code.strip()
-                if last_symbol:
-                    decoded += decode_morse(last_symbol)
-                    print_current(all_morse_string, decoded, last_symbol)
-                    last_symbol = None
+            if code == '   ':
+                all_morse_string += " "
+                decoded += decode_morse(morse_string.strip())
+                morse_string = ''
 
-            last_activity_time = current_time
+            print_current(all_morse_string, decoded)
             time.sleep(DEBOUNCE_TIME)
 
         else:
             released_duration = time_since_button_released()
             if released_duration >= WORD_SPACE_DURATION:
-                last_symbol = decode_morse(morse_string.strip())
-                if last_symbol:
-                    decoded += " " + last_symbol
-                    all_morse_string += " "
-                    print_current(all_morse_string, decoded, last_symbol)
-                    last_symbol = None
-
-            # Check for inactivity
-            if current_time - last_activity_time > INACTIVITY_THRESHOLD:
-                # display_morse_alphabet()
-                last_activity_time = current_time
-
+                decoded += " "
+                decoded += decode_morse(morse_string.strip())
+                morse_string = ''
+                all_morse_string += " "
+                print_current(all_morse_string, decoded)
             time.sleep(DEBOUNCE_TIME)
 
 
