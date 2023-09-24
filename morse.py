@@ -25,7 +25,7 @@ def decode_morse(morse_code):
     ])
 
 
-def get_morse_code():
+def get_morse():
     pressed_time = 0
     while GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
         pressed_time += DEBOUNCE_TIME
@@ -35,17 +35,17 @@ def get_morse_code():
         return '.'
     elif pressed_time < DASH_DURATION:
         return '-'
-    elif pressed_time < LETTER_SPACE_DURATION:
-        return ''
+    # elif pressed_time < LETTER_SPACE_DURATION:
+    #     return ''
     elif pressed_time < WORD_SPACE_DURATION:
         return ' '
     else:
-        return '   '
+        return '\n'
 
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    display.write(decoded_string[:30], x=50,  y=50, font_size=20)
+    # display.write(decoded_string[:30], x=50,  y=50, font_size=20)
 
 
 def time_since_button_released():
@@ -59,47 +59,35 @@ def time_since_button_released():
 def main_loop():
     print("Waiting for button press...")
     all_morse_string = ""
-    morse_string = ''
-    decoded = ''
+    morse_word = ''
+    decoded_words = ''
     previous_decoded = None  # To store the last known decoded string
-
-    display.display_morse_alphabet()
+    last_button_pressed_timestamp = time.time()
+    # display.display_morse_alphabet()
 
     while True:
+        decoded = None
+        morse_letter = None
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
-            code = get_morse_code()
-            all_morse_string += code
-            morse_string += code
+            morse_letter = get_morse()
+            morse_word += morse_letter
+            last_button_pressed_timestamp = time.time()
 
-            if code == '   ':
-                all_morse_string += " "
-                decoded += decode_morse(morse_string.strip())
-                morse_string = ''
+        if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
+            morse_letter = '\n'
 
-                # Check if the decoded message changed and print it
-                if decoded != previous_decoded:
-                    print_current(all_morse_string, decoded)
-                    previous_decoded = decoded
+        if morse_letter == '\n' and len(morse_word):
+            decoded = decode_morse(morse_word.strip())
+            morse_word = ''
 
-            time.sleep(DEBOUNCE_TIME)
+        if decoded is not None:
+            decoded_words += decoded
+            print(decoded_words)
 
-        else:
-            released_duration = time_since_button_released()
-            if released_duration >= WORD_SPACE_DURATION:
-                decoded += " "
-                decoded += decode_morse(morse_string.strip())
-                morse_string = ''
-                all_morse_string += " "
+        if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
+            print(":DISPLAY ALPHABET")
 
-                # Check if the decoded message changed and print it
-                if decoded != previous_decoded:
-                    print_current(all_morse_string, decoded)
-                    previous_decoded = decoded
-
-            if released_duration > INACTIVITY_THRESHOLD:
-                display.display_morse_alphabet()
-            time.sleep(DEBOUNCE_TIME)
-
+        time.sleep(DEBOUNCE_TIME)
 
 try:
     main_loop()
