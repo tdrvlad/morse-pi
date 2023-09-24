@@ -44,7 +44,7 @@ def get_morse():
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    display.write(decoded_string[8:], x=25,  y=None, font_size=40)
+    display.write(decoded_string[-8:], x=25,  y=None, font_size=40)
 
 
 def time_since_button_released():
