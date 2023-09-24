@@ -1,9 +1,6 @@
-#!/usr/bin/python
-# -*- coding:utf-8 -*-
 import sys
 import os
 import logging
-import time
 from config import MORSE_CODE_DICT
 
 PICDIR = "./e-Paper/RaspberryPi_JetsonNano/python/pic"
@@ -114,42 +111,3 @@ def display_morse_alphabet(start_x=5, start_y=3, font_size=14, line_gap=3, colum
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
 
-
-def initialize_display():
-    """Initialize the display once."""
-    epd.init()
-    epd.Clear(0xFF)
-
-
-def update_text_progressively(text, x_position, y_position, font_size=20):
-    """Progressively updates the display as the text grows."""
-    font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
-
-    # Create an image to draw on, if not exists
-    if not hasattr(update_text_progressively, "Himage"):
-        update_text_progressively.Himage = Image.new('1', (epd.height, epd.width), 255)
-
-    draw = ImageDraw.Draw(update_text_progressively.Himage)
-
-    # Draw new text
-    draw.text((x_position, y_position), text, font=font, fill=0)
-
-    # Refresh display
-    epd.display(epd.getbuffer(update_text_progressively.Himage))
-
-
-# Usage example
-initialize_display()
-time.sleep(1)
-update_text_progressively("A", 50, 50)
-time.sleep(1)
-update_text_progressively("AB", 50, 50)
-time.sleep(1)
-update_text_progressively("ABC", 50, 50)
-time.sleep(1)
-update_text_progressively("ABCD", 50, 50)
-time.sleep(1)
-update_text_progressively("DBCD", 50, 50)
-
-time.sleep(5)
-display_morse_alphabet()
