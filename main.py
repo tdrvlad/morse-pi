@@ -73,8 +73,8 @@ def display_morse_alphabet(epd):
     
     # Starting position for drawing
     x, y = 3, 3
-    line_height = font_size + 2  # smaller gap between lines
-    column_width = 30  # width to start a new column
+    line_height = font_size + 3  # smaller gap between lines
+    column_width = 50  # width to start a new column
 
     # Loop through Morse code dict and display each letter and its Morse code
     for char, morse in MORSE_CODE_DICT.items():
