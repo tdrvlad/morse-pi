@@ -61,7 +61,7 @@ try:
                 text = morse_to_text(morse_string)
                 if text is not None:
                     converted_text += text
-                    print(text)
+                    print(converted_text)
                     buffer.clear()  # Clear the buffer if we found a valid letter/symbol
                 else:
                     print(morse_string)
