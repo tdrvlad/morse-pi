@@ -3,12 +3,14 @@ import time
 from config import (
     MORSE_INPUT_PIN, TIME_UNIT, DOT_DURATION, DASH_DURATION,
     LETTER_SPACE_DURATION, WORD_SPACE_DURATION, DEBOUNCE_TIME,
-    MORSE_CODE_DICT
+    MORSE_CODE_DICT, INACTIVITY_THRESHOLD
 )
-from display import write_centered_text, display_morse_alphabet
+from display import Display
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+display = Display()
 
 
 def decode_morse(morse_code):
@@ -43,6 +45,7 @@ def get_morse_code():
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
+    display.write(decoded_string[:30], x=50,  y=50)
 
 
 def time_since_button_released():
@@ -81,6 +84,9 @@ def main_loop():
                 morse_string = ''
                 all_morse_string += " "
                 print_current(all_morse_string, decoded)
+
+            if released_duration > INACTIVITY_THRESHOLD:
+                display.display_morse_alphabet()
             time.sleep(DEBOUNCE_TIME)
 
 
