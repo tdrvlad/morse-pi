@@ -65,8 +65,7 @@ def main_loop():
     display.display_morse_alphabet()
 
     while True:
-        decoded = ""
-        morse_letter = None
+        decoded = None
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             morse_letter = get_morse()
             morse_word += morse_letter
@@ -74,11 +73,8 @@ def main_loop():
             last_button_pressed_timestamp = time.time()
 
         if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
-            morse_letter = '\n'
-
-        if morse_letter == '\n' and len(morse_word):
-                decoded = decode_morse(morse_word.strip())
-                morse_word = ''
+            decoded = decode_morse(morse_word.strip())
+            morse_word = ''
 
         if decoded is not None:
             print_current(all_morse_words, decoded_words)
