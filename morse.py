@@ -41,7 +41,7 @@ def get_morse():
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    # display.write(decoded_string[:30], x=50,  y=50, font_size=20)
+    display.write(decoded_string[:30], x=50,  y=50, font_size=20)
 
 
 def time_since_button_released():
@@ -72,7 +72,7 @@ def main_loop():
             morse_letter = ' '
 
         if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
-            morse_letter = '\n'
+            morse_letter = '   '
 
         if morse_letter is not None:
             morse_word = morse_word.strip() + morse_letter
