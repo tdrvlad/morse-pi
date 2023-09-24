@@ -154,3 +154,4 @@ if __name__ == '__main__':
     time.sleep(1)
     display.write("AB", font_size=20)
     time.sleep(1)
+    display.write("C", font_size=20)
