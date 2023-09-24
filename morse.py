@@ -45,7 +45,7 @@ def get_morse():
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    # display.write(decoded_string[:30], x=50,  y=50, font_size=20)
+    display.write(decoded_string[:30], x=50,  y=50, font_size=20)
 
 
 def time_since_button_released():
@@ -61,9 +61,8 @@ def main_loop():
     all_morse_words = ""
     morse_word = ''
     decoded_words = ''
-    previous_decoded = None  # To store the last known decoded string
     last_button_pressed_timestamp = time.time()
-    # display.display_morse_alphabet()
+    display.display_morse_alphabet()
 
     while True:
         decoded = ""

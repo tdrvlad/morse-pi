@@ -27,7 +27,7 @@ def skip_duplicate_calls(func):
 
         # If the current call matches the last call, skip it
         if hasattr(self, '_last_call') and self._last_call == current_call:
-            print(f"Skipped duplicate call: {func.__name__}")
+            # print(f"Skipped duplicate call: {func.__name__}")
             return
 
         # Store the current call as the last call
