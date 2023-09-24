@@ -85,7 +85,7 @@ def main_loop():
                 decoded = decoded.strip() + ' '
 
         if decoded is not None:
-            decoded_words = decoded_words.strip + decoded
+            decoded_words = decoded_words.strip() + decoded
             print_current(all_morse_words, decoded_words)
 
         if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
