@@ -53,7 +53,6 @@ try:
                 morse_string += code
                 if code == '   ':
                     all_morse_string += " "
-                    decoded += " "
                     decoded += decode_morse(morse_string.strip())
                     morse_string = ''
                 print_current(all_morse_string, decoded)
