@@ -50,39 +50,51 @@ def write_centered_text(epd, text, font_size):
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
 
-# Test the functions
+MORSE_CODE_DICT = {
+    "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
+    "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+    "a": ".-", "b": "-...", "c": "-.-.", "d": "-..", "e": ".",
+    "f": "..-.", "g": "--.", "h": "....", "i": "..", "j": ".---",
+    "k": "-.-", "l": ".-..", "m": "--", "n": "-.", "o": "---",
+    "p": ".--.", "q": "--.-", "r": ".-.", "s": "...", "t": "-",
+    "u": "..-", "v": "...-", "w": ".--", "x": "-..-", "y": "-.--",
+    "z": "--..", ".": ".-.-.-", ",": "--..--", "?": "..--..", "!": "-.-.--",
+    "-": "-....-", "/": "-..-.", "@": ".--.-.", "(": "-.--.", ")": "-.--.-"
+}
+
+def display_morse_alphabet(epd):
+    epd.init()
+    epd.Clear(0xFF)
+    
+    # Set the font size and create a new image
+    font_size = 20
+    font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
+    Himage = Image.new('1', (epd.height, epd.width), 255)
+    draw = ImageDraw.Draw(Himage)
+    
+    # Starting position for drawing
+    x, y = 10, 10
+    line_height = font_size + 5
+
+    # Loop through Morse code dict and display each letter and code
+    for char, morse in MORSE_CODE_DICT.items():
+        text = f"{char.upper()}: {morse}"
+        
+        # If the next line would go off the screen, we stop
+        if y + line_height > epd.width:
+            break
+        
+        draw.text((x, y), text, font=font, fill=0)
+        y += line_height
+        
+        # If a column is filled, move to the next column
+        if y + line_height > epd.width - 10:
+            y = 10
+            x += 100  # adjust the spacing as needed
+
+    epd.display(epd.getbuffer(Himage))
+    epd.sleep()
+
+# Test the function
 epd = epd2in9_V2.EPD()
-clear_screen_white(epd)
-time.sleep(2)
-clear_screen_black(epd)
-time.sleep(2)
-write_centered_text(epd, "Hello World", 24)
-
-
-# try:
-#     logging.info("epd2in9 V2 Demo") 
-#     epd = epd2in9_V2.EPD()
-
-#     logging.info("init and Clear")
-#     epd.init()
-#     epd.Clear(0xFF)
-
-#     font24 = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), 24)
-
-#     # Drawing on the Horizontal image
-#     logging.info("Drawing on the Horizontal image...")
-#     Himage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
-#     draw = ImageDraw.Draw(Himage)
-#     draw.text((10, 0), 'Hello world', font=font24, fill=0)
-#     epd.display(epd.getbuffer(Himage))
-
-#     logging.info("Goto Sleep...")
-#     epd.sleep()
-
-# except IOError as e:
-#     logging.info(e)
-
-# except KeyboardInterrupt:    
-#     logging.info("ctrl + c:")
-#     epd2in9_V2.epdconfig.module_exit()
-#     exit()
+display_morse_alphabet(epd)
