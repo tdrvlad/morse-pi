@@ -1,10 +1,10 @@
 
 # Morse Code Convention
-TIME_UNIT = 1.0  # 1 second time unit
+TIME_UNIT = 0.5  # 1 second time unit
 DOT_DURATION = TIME_UNIT  # Duration for 'dot'
 DASH_DURATION = 3 * TIME_UNIT  # Duration for 'dash'
 LETTER_SPACE_DURATION = 3 * TIME_UNIT  # Space between letters
-WORD_SPACE_DURATION = 7 * TIME_UNIT  # Space between words
+WORD_SPACE_DURATION = 5 * TIME_UNIT  # Space between words
 DEBOUNCE_TIME = 0.05
 
 # MORSE CODE DICTIONARY

@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 from config import MORSE_INPUT_PIN, TIME_UNIT, DOT_DURATION, DASH_DURATION, LETTER_SPACE_DURATION, WORD_SPACE_DURATION, DEBOUNCE_TIME, MORSE_CODE_DICT
+from utils import write_centered_texts
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -39,6 +40,7 @@ def get_morse_code():
 try:
     print("Waiting for button press...")
     morse_string = ''
+    decoded = ''
     while True:
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             code = get_morse_code()
@@ -46,8 +48,10 @@ try:
                 morse_string += code
                 print(code, end='', flush=True)
                 if code == '   ':
-                    print(f"\nDecoded: {decode_morse(morse_string.strip())}")
+                    decoded += decode_morse(morse_string.strip())
+                    print(f"\nDecoded: {decoded}")
                     morse_string = ''
+                write_centered_texts([morse_string, decoded])
             time.sleep(DEBOUNCE_TIME)
         else:
             if morse_string:
@@ -57,8 +61,10 @@ try:
                     time.sleep(DEBOUNCE_TIME)
 
                 if time_since_last_press >= WORD_SPACE_DURATION:
-                    print(f"\nDecoded: {decode_morse(morse_string.strip())}")
+                    decoded += decode_morse(morse_string.strip())
+                    print(f"\nDecoded: {decoded}")
                     morse_string = ''
+                    write_centered_texts([morse_string, decoded])
             time.sleep(DEBOUNCE_TIME)
 
 except KeyboardInterrupt:

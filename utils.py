@@ -4,6 +4,7 @@ import sys
 import os
 import logging
 import time
+from config import MORSE_CODE_DICT
 
 PICDIR = "./e-Paper/RaspberryPi_JetsonNano/python/pic"
 LIBDIR = "./e-Paper/RaspberryPi_JetsonNano/python/lib"
@@ -31,7 +32,7 @@ def clear_screen_black():
     epd.Clear(0x00)  # Full black
     epd.sleep()
 
-def write_centered_text(text, font_size):
+def write_centered_text(text, font_size=12):
     """Writes the provided text centered on the screen with the given font size."""
     epd.init()
     epd.Clear(0xFF)
@@ -52,16 +53,39 @@ def write_centered_text(text, font_size):
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
 
-MORSE_CODE_DICT = {
-    "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
-    "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
-    "a": ".-", "b": "-...", "c": "-.-.", "d": "-..", "e": ".",
-    "f": "..-.", "g": "--.", "h": "....", "i": "..", "j": ".---",
-    "k": "-.-", "l": ".-..", "m": "--", "n": "-.", "o": "---",
-    "p": ".--.", "q": "--.-", "r": ".-.", "s": "...", "t": "-",
-    "u": "..-", "v": "...-", "w": ".--", "x": "-..-", "y": "-.--",
-    "z": "--.."
-}
+
+def write_centered_texts(texts, font_size=12):
+    """Writes the provided text centered on the screen with the given font size."""
+    epd.init()
+    epd.Clear(0xFF)
+    font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
+
+    # Create an image to draw on
+    Himage = Image.new('1', (epd.height, epd.width), 255)
+    draw = ImageDraw.Draw(Himage)
+
+    # Calculate total height of all lines combined
+    total_text_height = sum([draw.textsize(line, font=font)[1] for line in texts])
+
+    # Calculate starting Y position
+    y = (epd.width - total_text_height) / 2
+
+    for text in texts:
+        # Get text width for the current line
+        text_width, text_height = draw.textsize(text, font=font)
+
+        # Calculate X position of the text
+        x = (epd.height - text_width) / 2
+
+        draw.text((x, y), text, font=font, fill=0)
+
+        # Move the Y position down for the next line
+        y += text_height
+
+    epd.display(epd.getbuffer(Himage))
+    epd.sleep()
+
+
 
 def display_morse_alphabet():
     epd.init()
