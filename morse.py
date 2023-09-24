@@ -96,7 +96,7 @@ def main_loop():
 
             # Check for inactivity
             if current_time - last_activity_time > INACTIVITY_THRESHOLD:
-                display_morse_alphabet()
+                # display_morse_alphabet()
                 last_activity_time = current_time
 
             time.sleep(DEBOUNCE_TIME)
