@@ -87,17 +87,16 @@ def write_centered_texts(texts, font_size=12):
 
 
 
-def display_morse_alphabet(start_x=5, start_y=5, font_size=12, line_gap=4, column_width = 50):
+def display_morse_alphabet(start_x=5, start_y=5, font_size=14, line_gap=4, column_width = 60):
     epd.init()
     epd.Clear(0xFF)
     
     # Set a smaller font size and create a new image
-    font_size = 14
     font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
     Himage = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(Himage)
     
-    x, y = start_x, start_y
+    x, y = start_x, start_y + line_gap
     line_height = font_size + line_gap
 
     # Loop through Morse code dict and display each letter and its Morse code
