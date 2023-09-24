@@ -41,8 +41,10 @@ def get_morse_code():
         return ''
 
 def morse_to_text(morse_code):
+    print(f'Checking received code: {morse_code}')
     for symbol, code in MORSE_CODE_DICT.items():
         if morse_code.endswith(code):
+            print(f"Matched: {code}")
             return symbol
     return None
 
