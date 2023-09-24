@@ -16,20 +16,22 @@ from waveshare_epd import epd2in9_V2
 from PIL import Image,ImageDraw,ImageFont
 
 logging.basicConfig(level=logging.DEBUG)
+epd = epd2in9_V2.EPD()
 
-def clear_screen_white(epd):
+
+def clear_screen_white():
     """Clears the screen to white color."""
     epd.init()
     epd.Clear(0xFF)
     epd.sleep()
 
-def clear_screen_black(epd):
+def clear_screen_black():
     """Clears the screen to black color."""
     epd.init()
     epd.Clear(0x00)  # Full black
     epd.sleep()
 
-def write_centered_text(epd, text, font_size):
+def write_centered_text(text, font_size):
     """Writes the provided text centered on the screen with the given font size."""
     epd.init()
     epd.Clear(0xFF)
@@ -61,7 +63,7 @@ MORSE_CODE_DICT = {
     "z": "--.."
 }
 
-def display_morse_alphabet(epd):
+def display_morse_alphabet():
     epd.init()
     epd.Clear(0xFF)
     
@@ -92,5 +94,4 @@ def display_morse_alphabet(epd):
     epd.sleep()
 
 # Test the function
-epd = epd2in9_V2.EPD()
-display_morse_alphabet(epd)
+display_morse_alphabet()
