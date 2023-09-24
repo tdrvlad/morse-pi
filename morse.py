@@ -61,6 +61,7 @@ def main_loop():
     all_morse_string = ""
     morse_string = ''
     decoded = ''
+    previous_decoded = None  # To store the last known decoded string
 
     while True:
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
@@ -73,7 +74,11 @@ def main_loop():
                 decoded += decode_morse(morse_string.strip())
                 morse_string = ''
 
-            print_current(all_morse_string, decoded)
+                # Check if the decoded message changed and print it
+                if decoded != previous_decoded:
+                    print_current(all_morse_string, decoded)
+                    previous_decoded = decoded
+
             time.sleep(DEBOUNCE_TIME)
 
         else:
@@ -83,7 +88,11 @@ def main_loop():
                 decoded += decode_morse(morse_string.strip())
                 morse_string = ''
                 all_morse_string += " "
-                print_current(all_morse_string, decoded)
+
+                # Check if the decoded message changed and print it
+                if decoded != previous_decoded:
+                    print_current(all_morse_string, decoded)
+                    previous_decoded = decoded
 
             if released_duration > INACTIVITY_THRESHOLD:
                 display.display_morse_alphabet()
