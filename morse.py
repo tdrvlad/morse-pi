@@ -52,6 +52,7 @@ try:
                 all_morse_string += code
                 morse_string += code
                 if code == '   ':
+                    all_morse_string += " "
                     decoded += decode_morse(morse_string.strip())
                     morse_string = ''
                 print_current(all_morse_string, decoded)
@@ -66,7 +67,8 @@ try:
                 if time_since_last_press >= WORD_SPACE_DURATION:
                     decoded += decode_morse(morse_string.strip())
                     morse_string = ''
-                    print_current(morse_string, decoded)
+                    all_morse_string += " "
+                    print_current(all_morse_string, decoded)
             time.sleep(DEBOUNCE_TIME)
 
 except KeyboardInterrupt:
