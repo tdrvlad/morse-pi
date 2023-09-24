@@ -84,8 +84,8 @@ def main_loop():
             decoded_words += decoded
             print(decoded_words)
 
-        if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
-            print(":DISPLAY ALPHABET")
+        # if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
+        #     print(":DISPLAY ALPHABET")
 
         time.sleep(DEBOUNCE_TIME)
 
