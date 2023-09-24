@@ -53,6 +53,7 @@ try:
                 morse_string += code
                 if code == '   ':
                     all_morse_string += " "
+                    decoded += " "
                     decoded += decode_morse(morse_string.strip())
                     morse_string = ''
                 print_current(all_morse_string, decoded)
@@ -65,6 +66,7 @@ try:
                     time.sleep(DEBOUNCE_TIME)
 
                 if time_since_last_press >= WORD_SPACE_DURATION:
+                    decoded += " "
                     decoded += decode_morse(morse_string.strip())
                     morse_string = ''
                     all_morse_string += " "
