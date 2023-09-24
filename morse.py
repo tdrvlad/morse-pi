@@ -37,21 +37,24 @@ def get_morse_code():
         return '   '  # Space between words
 
 
+def print_current(morse_string, decoded_string):
+    print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
+
 try:
     print("Waiting for button press...")
+    all_morse_string = ""
     morse_string = ''
     decoded = ''
     while True:
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             code = get_morse_code()
             if code:
+                all_morse_string += code
                 morse_string += code
-                print(code, end='', flush=True)
                 if code == '   ':
                     decoded += decode_morse(morse_string.strip())
-                    print(f"\nDecoded: {decoded}")
                     morse_string = ''
-                write_centered_texts([morse_string, decoded])
+                print_current(all_morse_string, decoded)
             time.sleep(DEBOUNCE_TIME)
         else:
             if morse_string:
@@ -62,9 +65,8 @@ try:
 
                 if time_since_last_press >= WORD_SPACE_DURATION:
                     decoded += decode_morse(morse_string.strip())
-                    print(f"\nDecoded: {decoded}")
                     morse_string = ''
-                    write_centered_texts([morse_string, decoded])
+                    print_current(morse_string, decoded)
             time.sleep(DEBOUNCE_TIME)
 
 except KeyboardInterrupt:
