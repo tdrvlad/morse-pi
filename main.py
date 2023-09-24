@@ -72,9 +72,9 @@ def display_morse_alphabet(epd):
     draw = ImageDraw.Draw(Himage)
     
     # Starting position for drawing
-    x, y = 10, 10
-    line_height = font_size + 4  # smaller gap between lines
-    column_width = 80  # width to start a new column
+    x, y = 3, 3
+    line_height = font_size + 2  # smaller gap between lines
+    column_width = 30  # width to start a new column
 
     # Loop through Morse code dict and display each letter and its Morse code
     for char, morse in MORSE_CODE_DICT.items():
