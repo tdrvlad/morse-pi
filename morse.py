@@ -45,7 +45,7 @@ def get_morse():
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    display.write(decoded_string[:30], x=50,  y=50, font_size=20)
+    # display.write(decoded_string[:30], x=50,  y=50, font_size=20)
 
 
 def time_since_button_released():
@@ -58,7 +58,7 @@ def time_since_button_released():
 
 def main_loop():
     print("Waiting for button press...")
-    all_morse_string = ""
+    all_morse_words = ""
     morse_word = ''
     decoded_words = ''
     previous_decoded = None  # To store the last known decoded string
@@ -66,23 +66,27 @@ def main_loop():
     # display.display_morse_alphabet()
 
     while True:
-        decoded = None
+        decoded = ""
         morse_letter = None
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             morse_letter = get_morse()
             morse_word += morse_letter
+            all_morse_words += morse_letter
             last_button_pressed_timestamp = time.time()
 
         if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
             morse_letter = '\n'
 
-        if morse_letter == '\n' and len(morse_word):
-            decoded = decode_morse(morse_word.strip())
-            morse_word = ''
+        if morse_letter == '\n':
+            if len(morse_word):
+                decoded = decode_morse(morse_word.strip())
+                morse_word = ''
+            else:
+                decoded = decoded.strip() + ' '
 
         if decoded is not None:
-            decoded_words += decoded
-            print_current()
+            decoded_words = decoded_words.strip + decoded
+            print_current(all_morse_words, decoded_words)
 
         if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
             display.display_morse_alphabet()
