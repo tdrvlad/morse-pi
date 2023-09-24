@@ -36,8 +36,10 @@ def get_morse():
         return '.'
     elif pressed_time < DASH_DURATION:
         return '-'
-    else:
+    elif pressed_time < LETTER_SPACE_DURATION:
         return ' '
+    else:
+        return None
 
 
 def print_current(morse_string, decoded_string):
@@ -67,6 +69,10 @@ def main_loop():
         morse_letter = None
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             morse_letter = get_morse()
+            if morse_letter is None:
+                all_morse_words = ""
+                decoded_words = ''
+                morse_letter = " "
             last_button_pressed_timestamp = time.time()
 
         if time.time() - last_button_pressed_timestamp > LETTER_SPACE_DURATION:
