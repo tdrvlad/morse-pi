@@ -67,14 +67,14 @@ def display_morse_alphabet(epd):
     epd.Clear(0xFF)
     
     # Set the font size and create a new image
-    font_size = 20
+    font_size = 8
     font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
     Himage = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(Himage)
     
     # Starting position for drawing
-    x, y = 10, 10
-    line_height = font_size + 5
+    x, y = 3, 3
+    line_height = font_size + 2
 
     # Loop through Morse code dict and display each letter and code
     for char, morse in MORSE_CODE_DICT.items():
