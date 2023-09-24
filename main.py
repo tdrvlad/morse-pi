@@ -42,11 +42,12 @@ def get_morse_code():
 
 def morse_to_text(morse_code):
     for symbol, code in MORSE_CODE_DICT.items():
-        if morse_code.endswitch(code):
+        if morse_code.endswith(code):
             return symbol
     return None
 
 try:
+    converted_text = ""
     print("Waiting for button press...")
     while True:
         if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
@@ -59,8 +60,11 @@ try:
                 morse_string = ''.join(buffer)
                 text = morse_to_text(morse_string)
                 if text is not None:
-                    print(f" {text} ", end='', flush=True)
+                    converted_text += text
+                    print(text)
                     buffer.clear()  # Clear the buffer if we found a valid letter/symbol
+                else:
+                    print(morse_string)
                     
             time.sleep(DEBOUNCE_TIME)
         time.sleep(DEBOUNCE_TIME)
