@@ -35,17 +35,13 @@ def get_morse():
         return '.'
     elif pressed_time < DASH_DURATION:
         return '-'
-    # elif pressed_time < LETTER_SPACE_DURATION:
-    #     return ''
-    elif pressed_time < WORD_SPACE_DURATION:
-        return ' '
     else:
-        return '\n'
+        return ' '
 
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    display.write(decoded_string[:30], x=50,  y=50, font_size=20)
+    # display.write(decoded_string[:30], x=50,  y=50, font_size=20)
 
 
 def time_since_button_released():
@@ -58,6 +54,8 @@ def time_since_button_released():
 
 def main_loop():
     print("Waiting for button press...")
+    last_morse_letter = None
+    last_morse_word = None
     all_morse_words = ""
     morse_word = ''
     decoded_words = ''
@@ -66,21 +64,31 @@ def main_loop():
 
     while True:
         decoded = None
+        morse_letter = None
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             morse_letter = get_morse()
-            morse_word += morse_letter
-            all_morse_words += morse_letter
             last_button_pressed_timestamp = time.time()
 
+        if time.time() - last_button_pressed_timestamp > LETTER_SPACE_DURATION:
+            morse_letter = ' '
+
         if time.time() - last_button_pressed_timestamp > WORD_SPACE_DURATION:
+            morse_letter = '\n'
+
+        if morse_letter != last_morse_letter:
+            morse_word += morse_letter
+            all_morse_words += morse_letter
+            last_morse_letter = morse_letter
+
+        if len(morse_word.strip()) > 0:
             decoded = decode_morse(morse_word.strip())
             morse_word = ''
-
-        if decoded is not None:
+            decoded_words += decoded
             print_current(all_morse_words, decoded_words)
 
         if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
-            display.display_morse_alphabet()
+            # display.display_morse_alphabet()
+            pass
 
         time.sleep(DEBOUNCE_TIME)
 
