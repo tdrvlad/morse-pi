@@ -10,13 +10,6 @@ GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 DOT_DURATION = 0.2
 DASH_DURATION = 0.6
 LETTER_GAP = 0.7
-GPIO.setmode(GPIO.BCM)  # Use BCM mode
-BUTTON_PIN = 27
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-DOT_DURATION = 0.2
-DASH_DURATION = 0.6
-LETTER_GAP = 0.7
 
 
 def get_morse_signal():
@@ -30,8 +23,10 @@ def get_morse_signal():
             
             if press_duration < DOT_DURATION:
                 morse_code += "."
+                write_centered_text(morse_code, 72)
             elif press_duration < DASH_DURATION:
                 morse_code += "-"
+                write_centered_text(morse_code, 72)
             else:
                 break
 
@@ -48,6 +43,8 @@ def main():
         letter = get_morse_signal()
         if letter:
             write_centered_text(letter, 72)
+        else:
+            clear_screen_white()
 
 if __name__ == "__main__":
     try:
