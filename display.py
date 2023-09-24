@@ -54,6 +54,7 @@ class Display:
 
     @skip_duplicate_calls
     def write(self, text, font_size, x=20, y=20):
+        print(f"Writing: {text}.")
         font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
 
         Himage = Image.new('1', (epd.height, epd.width), 255)
@@ -70,6 +71,7 @@ class Display:
 
     @skip_duplicate_calls
     def display_morse_alphabet(self, start_x=5, start_y=3, font_size=14, line_gap=3, column_width=60):
+        print("Displaying Morse Alphabet")
         font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
         Himage = Image.new('1', (epd.height, epd.width), 255)
         draw = ImageDraw.Draw(Himage)

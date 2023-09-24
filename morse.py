@@ -63,6 +63,8 @@ def main_loop():
     decoded = ''
     previous_decoded = None  # To store the last known decoded string
 
+    display.display_morse_alphabet()
+
     while True:
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             code = get_morse_code()
