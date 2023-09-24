@@ -73,6 +73,7 @@ def main_loop():
                 all_morse_words = ""
                 decoded_words = ''
                 morse_letter = " "
+                print_current(all_morse_words, decoded_words)
             last_button_pressed_timestamp = time.time()
 
         if time.time() - last_button_pressed_timestamp > LETTER_SPACE_DURATION:
