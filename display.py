@@ -2,6 +2,7 @@ import sys
 import os
 import logging
 from config import MORSE_CODE_DICT
+import time
 
 PICDIR = "./e-Paper/RaspberryPi_JetsonNano/python/pic"
 LIBDIR = "./e-Paper/RaspberryPi_JetsonNano/python/lib"
@@ -28,6 +29,40 @@ def clear_screen_black():
     epd.init()
     epd.Clear(0x00)  # Full black
     epd.sleep()
+
+
+class Display:
+    def __init__(self):
+        epd.init()
+        last_text = None
+        print('Initialized Display')
+
+    def black_screen(self):
+        epd.Clear(0x00)
+
+    def white_screen(self):
+        epd.Clear(0xFF)
+
+    def write(self, text, font_size, x=20, y=20):
+        font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
+
+        # Create an image to draw on
+        Himage = Image.new('1', (epd.height, epd.width), 255)
+        draw = ImageDraw.Draw(Himage)
+
+        # Get text width and height
+        text_width, text_height = draw.textsize(text, font=font)
+
+        # Calculate X, Y position of the text
+        if x is None:
+            x = (epd.height - text_width) / 2
+        if y is None:
+            y = (epd.width - text_height) / 2
+
+        draw.text((x, y), text, font=font, fill=0)
+        epd.display(epd.getbuffer(Himage))
+        # epd.sleep()
+
 
 def write_centered_text(text, font_size=12):
     """Writes the provided text centered on the screen with the given font size."""
@@ -111,3 +146,11 @@ def display_morse_alphabet(start_x=5, start_y=3, font_size=14, line_gap=3, colum
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
 
+
+if __name__ == '__main__':
+    display = Display()
+    time.sleep(1)
+    display.write("A", font_size=20)
+    time.sleep(1)
+    display.write("AB", font_size=20)
+    time.sleep(1)
