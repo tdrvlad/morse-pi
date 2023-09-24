@@ -58,40 +58,36 @@ MORSE_CODE_DICT = {
     "k": "-.-", "l": ".-..", "m": "--", "n": "-.", "o": "---",
     "p": ".--.", "q": "--.-", "r": ".-.", "s": "...", "t": "-",
     "u": "..-", "v": "...-", "w": ".--", "x": "-..-", "y": "-.--",
-    "z": "--..", ".": ".-.-.-", ",": "--..--", "?": "..--..", "!": "-.-.--",
-    "-": "-....-", "/": "-..-.", "@": ".--.-.", "(": "-.--.", ")": "-.--.-"
+    "z": "--.."
 }
 
 def display_morse_alphabet(epd):
     epd.init()
     epd.Clear(0xFF)
     
-    # Set the font size and create a new image
-    font_size = 8
+    # Set a smaller font size and create a new image
+    font_size = 12
     font = ImageFont.truetype(os.path.join(PICDIR, 'Font.ttc'), font_size)
     Himage = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(Himage)
     
     # Starting position for drawing
-    x, y = 3, 3
-    line_height = font_size + 2
+    x, y = 10, 10
+    line_height = font_size + 4  # smaller gap between lines
+    column_width = 80  # width to start a new column
 
-    # Loop through Morse code dict and display each letter and code
+    # Loop through Morse code dict and display each letter and its Morse code
     for char, morse in MORSE_CODE_DICT.items():
-        text = f"{char.upper()}: {morse}"
+        text = f"{char.upper()} {morse}"
         
-        # If the next line would go off the screen, we stop
-        if y + line_height > epd.width:
-            break
+        # If the next line would go off the screen, move to the next column
+        if y + line_height > epd.width - 10:
+            y = 10
+            x += column_width
         
         draw.text((x, y), text, font=font, fill=0)
         y += line_height
         
-        # If a column is filled, move to the next column
-        if y + line_height > epd.width - 10:
-            y = 10
-            x += 100  # adjust the spacing as needed
-
     epd.display(epd.getbuffer(Himage))
     epd.sleep()
 
