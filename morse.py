@@ -45,7 +45,7 @@ def get_morse():
 
 def print_current(morse_string, decoded_string):
     print(f"MORSE: {morse_string}\nDECODED: {decoded_string}")
-    # display.write(decoded_string[:30], x=50,  y=50, font_size=20)
+    display.write(decoded_string[:30], x=50,  y=50, font_size=20)
 
 
 def time_since_button_released():
@@ -82,10 +82,10 @@ def main_loop():
 
         if decoded is not None:
             decoded_words += decoded
-            print(decoded_words)
+            print_current()
 
-        # if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
-        #     print(":DISPLAY ALPHABET")
+        if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
+            display.display_morse_alphabet()
 
         time.sleep(DEBOUNCE_TIME)
 
