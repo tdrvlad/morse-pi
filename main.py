@@ -3,6 +3,7 @@
 import sys
 import os
 import logging
+import time
 
 PICDIR = "./e-Paper/RaspberryPi_JetsonNano/python/pic"
 LIBDIR = "./e-Paper/RaspberryPi_JetsonNano/python/lib"
