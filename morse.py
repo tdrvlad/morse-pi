@@ -85,8 +85,7 @@ def main_loop():
             print_current(all_morse_words, decoded_words)
 
         if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
-            # display.display_morse_alphabet()
-            pass
+            display.display_morse_alphabet()
 
         time.sleep(DEBOUNCE_TIME)
 
