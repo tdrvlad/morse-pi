@@ -8,6 +8,7 @@ WORD_SPACE_DURATION = 3 * TIME_UNIT  # Space between words
 DEBOUNCE_TIME = 0.05
 INACTIVITY_THRESHOLD = 30 * TIME_UNIT
 
+
 # MORSE CODE DICTIONARY
 MORSE_CODE_DICT = {
     'A': '.-',
@@ -46,9 +47,9 @@ MORSE_CODE_DICT = {
     '8': '---..',
     '9': '----.',
     '0': '-----',
-    "u'\u2764'": '-.-.-.-.'
 }
 
 # GPIO Wiring
-MORSE_INPUT_PIN = 27
+MORSE_INPUT_PIN = 2
+RESET_BUTTON = 4
 

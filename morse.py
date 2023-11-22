@@ -4,11 +4,12 @@ import time
 from config import (
     MORSE_INPUT_PIN, TIME_UNIT, DOT_DURATION, DASH_DURATION,
     LETTER_SPACE_DURATION, WORD_SPACE_DURATION, DEBOUNCE_TIME,
-    MORSE_CODE_DICT, INACTIVITY_THRESHOLD
+    MORSE_CODE_DICT, INACTIVITY_THRESHOLD, RESET_BUTTON
 )
 from display import Display
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 display = Display()
@@ -26,7 +27,17 @@ def decode_morse(morse_code):
     ])
 
 
-def get_morse():
+def check_reset_button():
+    pressed_time = 0
+    while GPIO.input(RESET_BUTTON) == GPIO.HIGH:
+        pressed_time += DEBOUNCE_TIME
+        time.sleep(DEBOUNCE_TIME)
+    if pressed_time > DEBOUNCE_TIME:
+        return True
+    return False
+
+
+def get_morse_unit():
     pressed_time = 0
     while GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
         pressed_time += DEBOUNCE_TIME
@@ -67,8 +78,15 @@ def main_loop():
     while True:
         decoded = None
         morse_letter = None
+
+        if check_reset_button():
+            all_morse_words = ""
+            morse_word = ''
+            decoded_words = ''
+            print_current(all_morse_words, decoded_words)
+
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
-            morse_letter = get_morse()
+            morse_letter = get_morse_unit()
             if morse_letter is None:
                 all_morse_words = ""
                 decoded_words = ''
