@@ -34,6 +34,7 @@ def check_reset_button():
 
     print("Reset button pushed.")
     while GPIO.input(RESET_BUTTON) == GPIO.HIGH:
+        print("Reset button active.")
         pressed_time += DEBOUNCE_TIME
         time.sleep(DEBOUNCE_TIME)
 
@@ -49,6 +50,7 @@ def get_morse_unit():
 
     print("Morse input detected.")
     while GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
+        print("Morse input active.")
         pressed_time += DEBOUNCE_TIME
         time.sleep(DEBOUNCE_TIME)
 
