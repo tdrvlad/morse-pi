@@ -9,7 +9,7 @@ from config import (
 from display import Display
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(RESET_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 display = Display()
@@ -89,11 +89,11 @@ def main_loop():
     while True:
         decoded = None
         morse_letter = None
-        if check_reset_button():
-            all_morse_words = ""
-            morse_word = ''
-            decoded_words = ''
-            print_current(all_morse_words, decoded_words)
+        # if check_reset_button():
+        #     all_morse_words = ""
+        #     morse_word = ''
+        #     decoded_words = ''
+        #     print_current(all_morse_words, decoded_words)
 
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             morse_letter = get_morse_unit()
