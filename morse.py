@@ -87,7 +87,6 @@ def main_loop():
     while True:
         decoded = None
         morse_letter = None
-
         if check_reset_button():
             all_morse_words = ""
             morse_word = ''
@@ -121,7 +120,7 @@ def main_loop():
 
         if time.time() - last_button_pressed_timestamp > INACTIVITY_THRESHOLD:
             display.display_morse_alphabet()
-
+        print('Nothing')
         time.sleep(DEBOUNCE_TIME)
 
 try:
