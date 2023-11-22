@@ -29,9 +29,13 @@ def decode_morse(morse_code):
 
 def check_reset_button():
     pressed_time = 0
+    if GPIO.input(RESET_BUTTON) == GPIO.LOW:
+        return False
+
     while GPIO.input(RESET_BUTTON) == GPIO.HIGH:
         pressed_time += DEBOUNCE_TIME
         time.sleep(DEBOUNCE_TIME)
+
     if pressed_time > DEBOUNCE_TIME:
         return True
     return False
