@@ -1,11 +1,11 @@
 import RPi.GPIO as GPIO
 import time
 from config import (
-    MORSE_INPUT_PIN, TIME_UNIT, DOT_DURATION, DASH_DURATION,
+    MORSE_INPUT_PIN, DOT_DURATION, DASH_DURATION,
     LETTER_SPACE_DURATION, WORD_SPACE_DURATION, DEBOUNCE_TIME,
     MORSE_CODE_DICT, INACTIVITY_THRESHOLD, RESET_BUTTON
 )
-from display import Display
+from morse_pi.display import Display
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(MORSE_INPUT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
