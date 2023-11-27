@@ -1,5 +1,5 @@
 print('Initializing.')
-from time import time
+import time
 time.sleep(15)
 
 print("Starting Morse Pi.")
