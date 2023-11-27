@@ -53,3 +53,7 @@ MORSE_CODE_DICT = {
 MORSE_INPUT_PIN = 6
 RESET_BUTTON = 5
 
+# e-Paper module Paths (relative to repo root)
+PICDIR = "./e-Paper/RaspberryPi_JetsonNano/python/pic"
+LIBDIR = "./e-Paper/RaspberryPi_JetsonNano/python/lib"
+

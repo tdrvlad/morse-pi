@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-import sys
-import os
-
-# Append the repo path to the PYTHONPATH so that the display import works
-repo_path = os.path.dirname(__file__)
-print(repo_path)
-sys.path.append(repo_path)
-
 import RPi.GPIO as GPIO
 import time
 from config import (
@@ -77,14 +68,6 @@ def print_current(morse_string, decoded_string):
     display.write(decoded_string[-8:], x=25,  y=None, font_size=40)
 
 
-# def time_since_button_released():
-#     released_time = 0
-#     while GPIO.input(MORSE_INPUT_PIN) == GPIO.LOW and released_time < WORD_SPACE_DURATION:
-#         released_time += DEBOUNCE_TIME
-#         time.sleep(DEBOUNCE_TIME)
-#     return released_time
-
-
 def main_loop():
     print("Waiting for button press...")
     last_morse_letter = None
@@ -133,9 +116,12 @@ def main_loop():
             display.display_morse_alphabet()
         time.sleep(DEBOUNCE_TIME)
 
-try:
-    main_loop()
-except KeyboardInterrupt:
-    print("\nScript terminated by user.")
-finally:
-    GPIO.cleanup()
+
+def run():
+    try:
+        main_loop()
+    except KeyboardInterrupt:
+        print("\nScript terminated by user.")
+    finally:
+        GPIO.cleanup()
+
