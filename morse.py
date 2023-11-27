@@ -3,8 +3,7 @@ import sys
 import os
 
 # Append the repo path to the PYTHONPATH so that the display import works
-print(__file__)
-repo_path = os.path.abspath(os.path.basename(os.path.abspath(__file__)))
+repo_path = os.path.basename(__file__)
 print(repo_path)
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
