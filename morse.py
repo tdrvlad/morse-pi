@@ -5,7 +5,7 @@ import os
 # Append the repo path to the PYTHONPATH so that the display import works
 repo_path = os.path.basename(__file__)
 print(repo_path)
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(repo_path)
 
 import RPi.GPIO as GPIO
 import time
