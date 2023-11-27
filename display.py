@@ -12,7 +12,7 @@ if not os.path.exists(LIBDIR):
 sys.path.append(LIBDIR)
 
 from waveshare_epd import epd2in9_V2
-from PIL import Image,ImageDraw,ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 logging.basicConfig(level=logging.DEBUG)
 epd = epd2in9_V2.EPD()

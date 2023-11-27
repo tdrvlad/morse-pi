@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+import sys
+import os
+sys.path.append(os.bpath.basename(__file__))
+
+
 import RPi.GPIO as GPIO
 import time
 from config import (
