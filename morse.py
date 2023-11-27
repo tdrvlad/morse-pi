@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import sys
 import os
-sys.path.append(os.bpath.basename(__file__))
 
+# Append the repo path to the PYTHONPATH so that the display import works
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import RPi.GPIO as GPIO
 import time
