@@ -69,12 +69,12 @@ def print_current(morse_string, decoded_string):
     display.write(decoded_string[-8:], x=25,  y=None, font_size=40)
 
 
-def time_since_button_released():
-    released_time = 0
-    while GPIO.input(MORSE_INPUT_PIN) == GPIO.LOW and released_time < WORD_SPACE_DURATION:
-        released_time += DEBOUNCE_TIME
-        time.sleep(DEBOUNCE_TIME)
-    return released_time
+# def time_since_button_released():
+#     released_time = 0
+#     while GPIO.input(MORSE_INPUT_PIN) == GPIO.LOW and released_time < WORD_SPACE_DURATION:
+#         released_time += DEBOUNCE_TIME
+#         time.sleep(DEBOUNCE_TIME)
+#     return released_time
 
 
 def main_loop():
@@ -94,6 +94,7 @@ def main_loop():
             morse_word = ''
             decoded_words = ''
             print_current(all_morse_words, decoded_words)
+            last_button_pressed_timestamp = time.time()
 
         if GPIO.input(MORSE_INPUT_PIN) == GPIO.HIGH:
             morse_letter = get_morse_unit()
