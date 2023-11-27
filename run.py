@@ -8,8 +8,8 @@ sys.path.append(repo_path)
 print(f"Repo directory: {repo_path}.")
 
 from config import LIBDIR, PICDIR
-sys.path.append(os.path.join(repo_path), LIBDIR)
-sys.path.append(os.path.join(repo_path), PICDIR)
+sys.path.append(os.path.join(repo_path, LIBDIR))
+sys.path.append(os.path.join(repo_path, PICDIR))
 
 from morse import run
 
