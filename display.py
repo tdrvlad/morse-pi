@@ -7,8 +7,8 @@ import time
 PICDIR = "./e-Paper/RaspberryPi_JetsonNano/python/pic"
 LIBDIR = "./e-Paper/RaspberryPi_JetsonNano/python/lib"
 
-if not os.path.exists(LIBDIR):
-    raise ValueError("Lib not found.")
+# if not os.path.exists(LIBDIR):
+#     raise ValueError("Lib not found.")
 sys.path.append(LIBDIR)
 
 from waveshare_epd import epd2in9_V2
