@@ -2,7 +2,7 @@ import os
 import logging
 from config import MORSE_CODE_DICT
 import time
-from waveshare_epd import epd2in9_V2
+from waveshare_epd import epd2in9_V2  #e-Paper library has to be included in PYTHONPATH (check config file)
 from PIL import Image, ImageDraw, ImageFont
 from morse_pi import picdir
 

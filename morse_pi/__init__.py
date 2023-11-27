@@ -2,7 +2,7 @@ import sys
 import os
 
 # Append the repo path to the PYTHONPATH so that the display import works
-repo_path = os.path.dirname(__file__)
+repo_path = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(repo_path)
 
 print(f"Repo directory: {repo_path}.")
